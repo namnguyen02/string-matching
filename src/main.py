@@ -9,7 +9,7 @@ df_mapping = None
 # Create a new window
 root = Tk()
 root.title("Data mining assignment")
-root.geometry("400x400")
+root.geometry("400x200")
 
 def browse_file(filename_input, file_path):
     filepath = filedialog.askopenfilename()
@@ -19,8 +19,8 @@ def browse_file(filename_input, file_path):
     file_path.set(filepath)
 
 def solve(fields):
-    fields.remove('year')
-    fields.remove('venue')
+    if 'venue' in fields:
+        fields.remove('venue')
     print(fields)
 
     global df_mapping
@@ -36,13 +36,12 @@ def handle_generate_option(path1, path2):
     df2 = pd.read_csv(path2.get(), encoding="ISO-8859-1").dropna()
     common_fields = set(df1.columns.values).intersection(df2.columns.values)
     common_fields.remove('id')
+    field_to_solve = []
     for field in common_fields:
-        if df1[field].dtype != 'O':
-            df1[field] = df1[field].astype(str)
-        if df2[field].dtype != 'O':
-            df2[field] = df2[field].astype(str)
+        if df1[field].dtype == 'O' and df2[field].dtype == 'O':
+            field_to_solve.append(field)
 
-    solve(common_fields)
+    solve(field_to_solve)
     df_mapping.to_csv(f'../result/{filename_input1.cget("text")}_{filename_input2.cget("text")}_mapping.csv', index=False)
     messagebox.showinfo("Info", "Done !")
 
