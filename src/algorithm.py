@@ -67,7 +67,7 @@ def find_max(matrix):
 
     return ele_max, m_max
 
-
+#
 def generalized_jascard_measure(str1, str2):
     set1 = list(set([ele.lower().strip() for ele in str1.split(',')]))
     set2 = list(set([ele.lower().strip() for ele in str2.split(',')]))
@@ -97,7 +97,7 @@ def generalized_jascard_measure(str1, str2):
 
     return total_score / (set1_len + set2_len - M)
 
-
+# Dùng để tìm ra các candidate
 def size_filtering(row, dataset, fields):
     x = ""
     for field in fields:
@@ -117,23 +117,6 @@ def size_filtering(row, dataset, fields):
 
     return dataset.loc[lst]
 
-
-# def string_matching_solve(dataset1, dataset2, field):
-#     mapping_dataset = []
-#     for index1, ele1 in enumerate(dataset1[field].values):
-#         dataset2_after_filter = size_filtering(ele1, dataset2, field)
-#         print(len(dataset2), len(dataset2_after_filter))
-#         for index2, ele2 in enumerate(dataset2_after_filter[field].values):
-#             if generalized_jascard_measure(ele1, ele2) >= 0.8:
-#                 mapping_dataset.append({
-#                     "id1": dataset1.id.values[index1],
-#                     "id2": dataset2_after_filter.id.values[index2]
-#                 })
-#                 print(ele1, '               ', ele2, f'index = {dataset2_after_filter.index.values[index2]}')
-#                 dataset2.drop(index=dataset2_after_filter.index.values[index2], inplace=True)
-#                 break
-#
-#     return pd.DataFrame(mapping_dataset, columns=["id1", "id2"])
 
 def string_matching_solve(dataset1, dataset2, fields):
     mapping_dataset = []
@@ -157,9 +140,3 @@ def string_matching_solve(dataset1, dataset2, fields):
                 break
 
     return pd.DataFrame(mapping_dataset, columns=["id1", "id2"])
-
-# df1 = pd.read_csv('../data/cleanCleanErDatasets/DBLP-ACM/ACM.csv', encoding="ISO-8859-1").dropna()
-# df1['year'] = df1['year'].astype(str)
-# df2 = pd.read_csv('../data/cleanCleanErDatasets/DBLP-ACM/DBLP2.csv', encoding="ISO-8859-1").dropna()
-# df2['year'] = df2['year'].astype(str)
-# print(string_matching_solve(df1, df2, ['title', 'authors', 'year']))
