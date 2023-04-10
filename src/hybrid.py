@@ -1,5 +1,5 @@
 import numpy as np
-from sequencedbase_algorithms import edit_distance, jaro_Winkler, affine_gap_measure, jaro_distance
+from sequencedbase_algorithms import *
 
 def find_max(matrix):
     if len(matrix) == 0:
@@ -41,3 +41,34 @@ def generalized_jascard_measure(str1, str2):
     total_score, M = find_max(matrix[set1_len - 1])
 
     return total_score / (set1_len + set2_len - M)
+
+def monge_elkan(s1, s2, second_measure_func=jaro_Winkler):
+    # input validations
+    bag1 = str.split(s1, ' ')
+    bag2 = str.split(s2, ' ')
+    if bag1 is None:
+        raise TypeError("First argument cannot be None")
+    if bag2 is None:
+        raise TypeError("Second argument cannot be None")
+    
+    if not isinstance(bag1, list):
+        if not isinstance(bag1, set):
+            raise TypeError('First argument is expected to be a python list or set')
+    if not isinstance(bag2, list):
+        if not isinstance(bag2, set):
+            raise TypeError('Second argument is expected to be a python list or set')
+    
+    if bag1 == bag2:
+        return 1.0
+
+    if len(bag1) == 0 or len(bag2) == 0:
+        return 0
+
+    sum_of_maxes = 0
+    for t1 in bag1:
+        max_sim = float('-inf')
+        for t2 in bag2:
+            max_sim = max(max_sim, second_measure_func(t1, t2))
+        sum_of_maxes += max_sim
+    result = float(sum_of_maxes) / float(len(bag1))
+    return result
