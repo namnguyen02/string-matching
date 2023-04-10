@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
-
+from sequencedbase_algorithms import *
+from setbase_algorithms import *
 def affine_gap_measure(str1, str2):
   str1 = str1.lower()
   str2 = str2.lower()
