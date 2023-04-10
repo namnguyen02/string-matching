@@ -1,5 +1,60 @@
 from math import floor, ceil
 import numpy as np
+
+def affine_gap_measure(str1, str2):
+  str1 = str1.lower()
+  str2 = str2.lower()
+  str1_len = len(str1)
+  str2_len = len(str2)
+
+  matrix = np.zeros((str1_len+1, str2_len+1, 3))
+  co = 1
+  cr = 0.5
+  matrix[0][0] = [0, -co, -co]
+
+  #intial step
+  for i in range(1, str1_len + 1):
+    matrix[i][0][0] = -np.inf
+    matrix[i][0][1] = matrix[i-1][0][1] - cr
+    matrix[i][0][2] = -np.inf
+
+  for i in range(1, str2_len + 1):
+    matrix[0][i][0] = -np.inf
+    matrix[0][i][1] = -np.inf
+    matrix[0][i][2] = matrix[0][i-1][2] - cr
+
+  for i in range(1, str1_len + 1):
+    for j in range(1, str2_len + 1):
+      c = 2 if str1[i-1] == str2[j-1] else -1
+      matrix[i][j][0] = max((matrix[i-1][j-1][0] + c, matrix[i-1][j-1][1] + c, matrix[i-1][j-1][2] + c))
+      matrix[i][j][1] = max((matrix[i-1][j][0] - co, matrix[i-1][j][1] - cr))
+      matrix[i][j][2] = max((matrix[i][j-1][0] - co, matrix[i][j-1][2] - cr))
+
+  return max(matrix[str1_len][str2_len]) / max(str1_len, str2_len)
+
+
+def edit_distance(str1, str2):
+    str1_len = len(str1)
+    str2_len = len(str2)
+
+    # calculate edit distance
+    matrix = np.zeros((str1_len + 1, str2_len + 1))
+    matrix[0][0] = 0
+
+    # intial step
+    for i in range(1, str1_len + 1):
+        matrix[i][0] = matrix[i - 1][0] + 1
+
+    for i in range(1, str2_len + 1):
+        matrix[0][i] = matrix[0][i - 1] + 1
+
+    for i in range(1, str1_len + 1):
+        for j in range(1, str2_len + 1):
+            c = 0 if str1[i - 1] == str2[j - 1] else 1
+            matrix[i][j] = min(matrix[i - 1][j - 1] + c, matrix[i - 1][j] + 1, matrix[i][j - 1] + 1)
+
+    return 1 - (matrix[str1_len][str2_len] / max(str1_len, str2_len))
+
 def nw(x, y, match=1, mismatch=1, gap=1):
     nx = len(x)
     ny = len(y)
