@@ -42,8 +42,10 @@ def generalized_jascard_measure(str1, str2):
 
     return total_score / (set1_len + set2_len - M)
 
-def monge_elkan(bag1, bag2, second_measure_func=jaro_Winkler):
+def monge_elkan(s1, s2, second_measure_func=jaro_Winkler):
     # input validations
+    bag1 = str.split(s1, ' ')
+    bag2 = str.split(s2, ' ')
     if bag1 is None:
         raise TypeError("First argument cannot be None")
     if bag2 is None:
