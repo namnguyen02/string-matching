@@ -15,7 +15,8 @@ def draw_chart(root, df_truth, df_mapping):
     # Hiển thị hình tròn trên giao diện tkinter
     canvas = FigureCanvasTkAgg(fig, master=root)
     canvas.draw()
-    canvas.get_tk_widget().grid(row=9, column=1, columnspan=4)
+    canvas.get_tk_widget().grid(row=13, column=1, columnspan=4)
+    fig.savefig("../result/my_plot.png")
 
 
 def evaluate(df_truth, df_mapping):

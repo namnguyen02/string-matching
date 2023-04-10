@@ -9,7 +9,7 @@ def affine_gap_measure(str1, str2):
 
   matrix = np.zeros((str1_len+1, str2_len+1, 3))
   co = 1
-  cr = 0.5
+  cr = 0.25
   matrix[0][0] = [0, -co, -co]
 
   #intial step
@@ -25,7 +25,7 @@ def affine_gap_measure(str1, str2):
 
   for i in range(1, str1_len + 1):
     for j in range(1, str2_len + 1):
-      c = 2 if str1[i-1] == str2[j-1] else -1
+      c = 1 if str1[i-1] == str2[j-1] else -0.5
       matrix[i][j][0] = max((matrix[i-1][j-1][0] + c, matrix[i-1][j-1][1] + c, matrix[i-1][j-1][2] + c))
       matrix[i][j][1] = max((matrix[i-1][j][0] - co, matrix[i-1][j][1] - cr))
       matrix[i][j][2] = max((matrix[i][j-1][0] - co, matrix[i][j-1][2] - cr))
@@ -163,4 +163,5 @@ def jaro_Winkler(s1, s2):
         jaro_dist += 0.1 * prefix * (1 - jaro_dist)
 
     return jaro_dist
+
 

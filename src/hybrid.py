@@ -1,5 +1,5 @@
 import numpy as np
-from sequencedbase_algorithms import edit_distance
+from sequencedbase_algorithms import edit_distance, jaro_Winkler, affine_gap_measure, jaro_distance
 
 def find_max(matrix):
     if len(matrix) == 0:
@@ -23,7 +23,7 @@ def generalized_jascard_measure(str1, str2):
 
     # initial
     for i in range(set2_len):
-        point = edit_distance(set1[0], set2[i])
+        point = jaro_distance(set1[0], set2[i])
         if point > k:
             matrix[0][i] = [point, 1]
         else:
@@ -31,7 +31,7 @@ def generalized_jascard_measure(str1, str2):
 
     for i in range(1, set1_len):
         for j in range(set2_len):
-            point = edit_distance(set1[i], set2[j])
+            point = jaro_distance(set1[i], set2[j])
             prev = find_max([matrix[i - 1][t] for t in range(set2_len) if t != j])
             if point > k:
                 matrix[i][j] = [point + prev[0], prev[1] + 1]

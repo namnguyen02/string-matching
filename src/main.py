@@ -2,16 +2,22 @@ from tkinter import filedialog, messagebox, ttk
 from tkinter import *
 from algorithm import *
 from evaluate import draw_chart
+from candidate import *
+from sequencedbase_algorithms import *
+from setbase_algorithms import *
+from hybrid import *
 
 #initial
 df1 = None
 df2 = None
 df_truth = None
 df_mapping = None
+algorithm = None
+filter_method = None
 # Create a new window
 root = Tk()
 root.title("Data mining assignment")
-root.geometry("500x600")
+root.geometry("650x700")
 
 def browse_file(filename_input, file_path):
     filepath = filedialog.askopenfilename()
@@ -26,9 +32,16 @@ def solve(fields):
     print(fields)
 
     global df_mapping
-    df_mapping = string_matching_solve(df1, df2, fields)
+    df_mapping = string_matching_solve(df1, df2, fields, algorithm, filter_method)
 
 def handle_generate(path1, path2, path3):
+    if algorithm is None:
+        messagebox.showerror("Lỗi", "Vui lòng chọn algorithm")
+        return
+
+    if filter_method is None:
+        messagebox.showerror("Lỗi", "Vui lòng chọn filter method")
+        return
 
     if path1.get() == "" or path2.get() == "" or path3.get() == "":
         messagebox.showerror("Lỗi", "Không tìm thấy file")
@@ -88,12 +101,52 @@ filename_input3.grid(row=6, column=2)
 btn3 = Button(text="Browse", command=lambda: browse_file(filename_input3, file_path3))
 btn3.grid(row=5, column=3)
 
-########################################################################
+###############################      OPTIONS       #########################################
+Label(root, text="Select algorithm").grid(row=7, column=1)
+algorithm_var = IntVar()
+def select_algorithm():
+    global algorithm
+    algo = algorithm_var.get()
+    if algo == 1:
+        algorithm = affine_gap_measure
+    elif algo == 2:
+        algorithm = nw
+    elif algo == 3:
+        algorithm = jaro_Winkler
+    else:
+        algorithm = generalized_jascard_measure
+
+
+affine_gap_measure_radio = Radiobutton(root, text="affine gap", variable=algorithm_var, value=1, command=select_algorithm)
+needleman_wunch_measure_radio = Radiobutton(root, text="needleman wunch", variable=algorithm_var, value=2, command=select_algorithm)
+jaro_measure_radio = Radiobutton(root, text="jaro", variable=algorithm_var, value=3, command=select_algorithm)
+generalized_jascard_measure_radio = Radiobutton(root, text="generalized jascard", variable=algorithm_var, value=4, command=select_algorithm)
+
+affine_gap_measure_radio.grid(row=8, column=1)
+needleman_wunch_measure_radio.grid(row=8, column=2)
+jaro_measure_radio.grid(row=8, column=3)
+generalized_jascard_measure_radio.grid(row=8, column=4)
+
+######
+
+Label(root, text="Select filtering method").grid(row=9, column=1)
+filtering_method_var = IntVar()
+def select_filtering_method():
+    global filter_method
+    filter = filtering_method_var.get()
+    if filter == 1:
+        filter_method = size_filtering
+
+size_filtering_radio = Radiobutton(root, text="size filtering", variable=filtering_method_var, value=1, command=select_filtering_method)
+
+size_filtering_radio.grid(row=10, column=1)
+
+###############################      GENERATE      #########################################
 btn_submit = Button(text="Generate mapping file", command=lambda: handle_generate(file_path1, file_path2, file_path3))
-btn_submit.grid(row=7, column=3)
+btn_submit.grid(row=11, column=3)
 
 ########################################################################
-Label(root, text="").grid(row=8, column=1)
+Label(root, text="").grid(row=12, column=1)
 # Run the window loop
 root.mainloop()
 
