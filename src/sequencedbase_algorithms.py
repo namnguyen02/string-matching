@@ -108,9 +108,7 @@ def nw(x, y, match=1, mismatch=1, gap=1):
     # Reverse the strings.
     rx = ''.join(rx)[::-1]
     ry = ''.join(ry)[::-1]
-   #  print()
-   #  return '\n'.join([rx, ry])
-    return 1 - F[-1][-1] / max(len(x), len(y))
+    return F[-1][-1]
 def jaro_distance(s1, s2):
     if (s1 == s2):
         return 1.0
@@ -148,19 +146,27 @@ def jaro_distance(s1, s2):
             (match - t) / match) / 3.0
 
 
-def jaro_Winkler(s1, s2):
+
+def jaro_Winkler(s1, s2, prefix_weight = 0.1):
 
     jaro_dist = jaro_distance(s1, s2)
-    if (jaro_dist > 0.7):
-        prefix = 0
+ 
+    prefix = 0
 
-        for i in range(min(len(s1), len(s2))):
-            if (s1[i] == s2[i]):
-                prefix += 1
-            else:
-                break
-        prefix = min(4, prefix)
-        jaro_dist += 0.1 * prefix * (1 - jaro_dist)
+    for i in range(min(len(s1), len(s2))) :
+        if s1[i] == s2[i] :
+            prefix += 1
+        else :
+            break
 
+    # Maximum of 4 characters are allowed in prefix
+    prefix = min(4, prefix)
+
+    # Calculate jaro winkler Similarity
+    jaro_dist += prefix_weight * prefix * (1 - jaro_dist)
+ 
     return jaro_dist
+
+
+
 
