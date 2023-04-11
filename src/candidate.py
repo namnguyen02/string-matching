@@ -76,3 +76,44 @@ def bound_filtering(row1, row2, fields):
             sum += i[2]
     LB = sum / (n + m - size)
     return [LB, UB]
+
+
+def inverted_index(query, documents):
+    index = {}
+
+    for i, doc in enumerate(documents):
+        words = doc.lower().split()
+        for word in words:
+            if word not in index:
+                index[word] = []
+            index[word].append(i)
+
+    words = query.lower().split()
+    result = set(index[words[0]])
+    for word in words[1:]:
+        result = result.intersection(set(index[word]))
+    return [documents[i] for i in result]
+
+
+def position_filter(query, strings):
+    query_len = len(query)
+    result = []
+
+    for string in strings:
+        string_len = len(string)
+        if query_len > string_len:
+            continue
+        i = 0
+        while i <= string_len - query_len:
+            j = 0
+            while j < query_len and query[j] == string[i+j]:
+                j += 1
+            if j == query_len:
+                result.append(string)
+                break
+            if j == 0:
+                i += 1
+            else:
+                i += j
+
+    return result

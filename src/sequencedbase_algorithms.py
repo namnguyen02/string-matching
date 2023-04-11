@@ -147,13 +147,13 @@ def jaro_distance(s1, s2):
             (match - t) / match) / 3.0
 
 
-def jaro_Winkler(s1, s2, prefix_weight = 0.1):
+def jaro_Winkler(s1, s2, prefix_weight=0.1):
 
     jaro_dist = jaro_distance(s1, s2)
  
     prefix = 0
 
-    for i in range(min(len(s1), len(s2))) :
+    for i in range(min(len(s1), len(s2))):
         if s1[i] == s2[i] :
             prefix += 1
         else :

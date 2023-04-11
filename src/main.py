@@ -17,7 +17,7 @@ filter_method = None
 # Create a new window
 root = Tk()
 root.title("Data mining assignment")
-root.geometry("650x700")
+root.geometry("750x700")
 
 def browse_file(filename_input, file_path):
     filepath = filedialog.askopenfilename()
@@ -108,24 +108,20 @@ def select_algorithm():
     global algorithm
     algo = algorithm_var.get()
     if algo == 1:
-        algorithm = affine_gap_measure
-    elif algo == 2:
-        algorithm = nw
-    elif algo == 3:
         algorithm = jaro_Winkler
-    else:
+    elif algo == 2:
         algorithm = generalized_jascard_measure
+    else:
+        algorithm = monge_elkan
 
 
-affine_gap_measure_radio = Radiobutton(root, text="affine gap", variable=algorithm_var, value=1, command=select_algorithm)
-needleman_wunch_measure_radio = Radiobutton(root, text="needleman wunch", variable=algorithm_var, value=2, command=select_algorithm)
-jaro_measure_radio = Radiobutton(root, text="jaro", variable=algorithm_var, value=3, command=select_algorithm)
-generalized_jascard_measure_radio = Radiobutton(root, text="generalized jascard", variable=algorithm_var, value=4, command=select_algorithm)
+jaro_measure_radio = Radiobutton(root, text="jaro", variable=algorithm_var, value=1, command=select_algorithm)
+generalized_jascard_measure_radio = Radiobutton(root, text="generalized jascard", variable=algorithm_var, value=2, command=select_algorithm)
+monge_elkan_radio = Radiobutton(root, text="monge elkan", variable=algorithm_var, value=3, command=select_algorithm)
 
-affine_gap_measure_radio.grid(row=8, column=1)
-needleman_wunch_measure_radio.grid(row=8, column=2)
-jaro_measure_radio.grid(row=8, column=3)
-generalized_jascard_measure_radio.grid(row=8, column=4)
+jaro_measure_radio.grid(row=8, column=1)
+generalized_jascard_measure_radio.grid(row=8, column=2)
+monge_elkan_radio.grid(row=8, column=3)
 
 ######
 
@@ -136,10 +132,14 @@ def select_filtering_method():
     filter = filtering_method_var.get()
     if filter == 1:
         filter_method = size_filtering
+    elif filter == 2:
+        filter_method = bound_filtering
 
 size_filtering_radio = Radiobutton(root, text="size filtering", variable=filtering_method_var, value=1, command=select_filtering_method)
+bound_filtering_radio = Radiobutton(root, text="bound filtering", variable=filtering_method_var, value=2, command=select_filtering_method)
 
 size_filtering_radio.grid(row=10, column=1)
+bound_filtering_radio.grid(row=10, column=2)
 
 ###############################      GENERATE      #########################################
 btn_submit = Button(text="Generate mapping file", command=lambda: handle_generate(file_path1, file_path2, file_path3))
