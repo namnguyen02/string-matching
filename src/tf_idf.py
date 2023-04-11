@@ -1,5 +1,5 @@
 import math
-from jaro_winkler import jaro_winkler
+from sequencedbase_algorithms import jaro_Winkler
 
 #documents
 doc1 = "I'l buy you anything buy you any drink"
@@ -107,4 +107,4 @@ def find_close(curr_docs_spl, threshold, sim_measure):
     return close_word_s1
                 
 
-print(tfidf(doc1,doc2,0.75,jaro_winkler))
+print(tfidf(doc1, doc2, 0.75, jaro_Winkler))

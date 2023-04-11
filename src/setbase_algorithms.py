@@ -20,6 +20,7 @@ def jaccard_measure(x, y, q_grams):
    for token in setY:
       union_set.add(token)
    return ans / len(union_set)
+
 def overlap_measure(x, y, q_grams):
    if len(x) == 0 or len(y) == 0: return 0
    for i in range(q_grams - 1):

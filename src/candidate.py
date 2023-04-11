@@ -1,5 +1,5 @@
 # Dùng để tìm ra các candidate
-from jaro import jaro_distance
+from sequencedbase_algorithms import jaro_distance
 import numpy as np
 
 def size_filtering(row, dataset, fields):
@@ -20,6 +20,8 @@ def size_filtering(row, dataset, fields):
             lst.append(index)
 
     return dataset.loc[lst]
+
+
 def bound_filtering(row1, row2, fields):
     ans = []
     x = ""

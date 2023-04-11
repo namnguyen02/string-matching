@@ -149,8 +149,3 @@ btn_submit.grid(row=11, column=3)
 Label(root, text="").grid(row=12, column=1)
 # Run the window loop
 root.mainloop()
-
-
-# y1 = "Gottfried Vossen, Mathias Weske"
-# y2 = "Jan van den Bussche"
-# print(generalized_jascard_measure(y1, y2))
