@@ -76,5 +76,5 @@ def monge_elkan(str1, str2, sim_func):
 
     return sum_of_maxes / float(len(bag1))
 
-print(monge_elkan('Niall', 'Neal',jaro_winkler)) # 0.8049999999999999
-print(monge_elkan('Comput. Sci. and Eng. Dept., University of California San Diego', 'Department of Computer Science, Univ. Calif. San Diego',jaro_winkler)) # 0.8677218614718616
+# print(monge_elkan('Niall', 'Neal',jaro_winkler)) # 0.8049999999999999
+# print(monge_elkan('Comput. Sci. and Eng. Dept., University of California San Diego', 'Department of Computer Science, Univ. Calif. San Diego',jaro_winkler)) # 0.8677218614718616
