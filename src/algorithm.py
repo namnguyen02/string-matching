@@ -23,9 +23,9 @@ def string_matching_solve(dataset1, dataset2, fields, algorithm, filter_method):
                     elif list[0] < threshold <= list[1]:
                         for field in fields:
                             avg_point = algorithm(row1[field], row2[field])
-                            if (avg_point) < 7:
+                            if (avg_point) < 0.8:
                                 break
-                        if avg_point >= 0.7:
+                        if avg_point >= 0.8:
                             print(avg_point)
                             mapping_dataset.append({
                                 "id1": dataset1.loc[index1].id,

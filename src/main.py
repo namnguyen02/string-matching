@@ -17,7 +17,7 @@ filter_method = None
 # Create a new window
 root = Tk()
 root.title("Data mining assignment")
-root.geometry("750x700")
+root.geometry("500x650")
 
 def browse_file(filename_input, file_path):
     filepath = filedialog.askopenfilename()

@@ -50,29 +50,33 @@ def select_algorithm():
     elif algo == 3:
         algorithm = jaro_Winkler
     elif algo == 4:
+        algorithm = tfidf
+    elif algo == 5:
         algorithm = generalized_jascard_measure
     else:
-        algorithm = monge_elkan
+        algorithm=monge_elkan
 
 affine_gap_measure_radio = Radiobutton(root, text="affine gap", variable=algorithm_var, value=1, command=select_algorithm)
 needleman_wunch_measure_radio = Radiobutton(root, text="needleman wunch", variable=algorithm_var, value=2, command=select_algorithm)
 jaro_measure_radio = Radiobutton(root, text="jaro", variable=algorithm_var, value=3, command=select_algorithm)
-generalized_jascard_measure_radio = Radiobutton(root, text="generalized jascard", variable=algorithm_var, value=4, command=select_algorithm)
-monge_elkan_radio = Radiobutton(root, text="monge elkan", variable=algorithm_var, value=5, command=select_algorithm)
+# tfidf_radio = Radiobutton(root, text="tfidf", variable=algorithm_var, value=4, command=select_algorithm)
+generalized_jascard_measure_radio = Radiobutton(root, text="generalized jascard", variable=algorithm_var, value=5, command=select_algorithm)
+monge_elkan_radio = Radiobutton(root, text="monge elkan", variable=algorithm_var, value=6, command=select_algorithm)
 
 affine_gap_measure_radio.grid(row=4, column=1)
 needleman_wunch_measure_radio.grid(row=5, column=1)
 jaro_measure_radio.grid(row=6, column=1)
-generalized_jascard_measure_radio.grid(row=7, column=1)
-monge_elkan_radio.grid(row=8, column=1)
+# tfidf_radio.grid(row=7, column=1)
+generalized_jascard_measure_radio.grid(row=8, column=1)
+monge_elkan_radio.grid(row=9, column=1)
 
 ###############################      CALCULATE      #########################################
 btn_submit = Button(text="Calculate similarity score", command=lambda: calculate(str1_var.get(), str2_var.get()))
-btn_submit.grid(row=9, column=1)
+btn_submit.grid(row=10, column=1)
 
 ##########        SCORE          #########
 score = Label(root, text="")
-score.grid(row=10, column=0)
+score.grid(row=11, column=0)
 
 # Run the window loop
 root.mainloop()
