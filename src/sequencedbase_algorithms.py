@@ -8,8 +8,8 @@ def affine_gap_measure(str1, str2):
   str2_len = len(str2)
 
   matrix = np.zeros((str1_len+1, str2_len+1, 3))
-  co = 1
-  cr = 0.25
+  co = 0.2
+  cr = 0.02
   matrix[0][0] = [0, -co, -co]
 
   #intial step
@@ -25,7 +25,7 @@ def affine_gap_measure(str1, str2):
 
   for i in range(1, str1_len + 1):
     for j in range(1, str2_len + 1):
-      c = 1 if str1[i-1] == str2[j-1] else -0.5
+      c = 1 if str1[i-1] == str2[j-1] else -0.2
       matrix[i][j][0] = max((matrix[i-1][j-1][0] + c, matrix[i-1][j-1][1] + c, matrix[i-1][j-1][2] + c))
       matrix[i][j][1] = max((matrix[i-1][j][0] - co, matrix[i-1][j][1] - cr))
       matrix[i][j][2] = max((matrix[i][j-1][0] - co, matrix[i][j-1][2] - cr))
@@ -108,7 +108,8 @@ def nw(x, y, match=1, mismatch=1, gap=1):
     # Reverse the strings.
     rx = ''.join(rx)[::-1]
     ry = ''.join(ry)[::-1]
-    return F[-1][-1]
+    return F[-1][-1] / max(nx, ny)
+
 def jaro_distance(s1, s2):
     if (s1 == s2):
         return 1.0
@@ -146,14 +147,13 @@ def jaro_distance(s1, s2):
             (match - t) / match) / 3.0
 
 
-
-def jaro_Winkler(s1, s2, prefix_weight = 0.1):
+def jaro_Winkler(s1, s2, prefix_weight=0.1):
 
     jaro_dist = jaro_distance(s1, s2)
  
     prefix = 0
 
-    for i in range(min(len(s1), len(s2))) :
+    for i in range(min(len(s1), len(s2))):
         if s1[i] == s2[i] :
             prefix += 1
         else :
